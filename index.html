@@ -1,0 +1,270 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HOTS Survey - What Part of the Team Are You?</title>
+    <style>
+        body {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        tr {
+            border-top: 1px solid black;
+        }
+        
+        td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="intro"></div>
+    <table id="questions">
+        <tbody></tbody>
+    </table>
+    <div id="answers"></div>
+</body>
+<script>
+    var images = {
+        hare: "data:image/jpeg;base64,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",
+        owl: "data:image/jpeg;base64,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",
+        squirrel: "data:image/jpeg;base64,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",
+        turtle: "data:image/jpeg;base64,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"
+    }
+
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    function calculateScore() {
+        var Escore = 0;
+        var Cscore = 0;
+        for (var i = 0; i < questions.length; i++) {
+            var radios = document.getElementsByName(questions[i][0] + i);
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    if (questions[i][0] === "E") {
+                        Escore += Number(radios[j].value);
+                    } else {
+                        Cscore += Number(radios[j].value);
+                    }
+                    break;
+                }
+            }
+        }
+        var Lscore = 50 - Escore;
+        var Ascore = 50 - Cscore;
+        var Hare = Escore + Cscore;
+        var Owl = Escore + Ascore;
+        var Turtle = Lscore + Cscore;
+        var Squirrel = Lscore + Ascore;
+
+        if (Hare - Owl - Squirrel - Turtle === 0) {
+            personality = "Balanced";
+        } else if (Hare === Owl) {
+            personality = "HareOwl";
+        } else if (Owl === Squirrel) {
+            personality = "OwlSquirrel";
+        } else if (Turtle === Squirrel) {
+            personality = "TurtleSquirrel";
+        } else if (Hare === Turtle) {
+            personality = "HareTurtle"
+        } else if (Hare > Owl && Hare > Squirrel && Hare > Turtle) {
+            personality = "Hare"
+        } else if (Owl > Hare && Owl > Squirrel && Owl > Turtle) {
+            personality = "Owl"
+        } else if (Squirrel > Hare && Squirrel > Owl && Squirrel > Turtle) {
+            personality = "Squirrel"
+        } else {
+            personality = "Turtle"
+        }
+        var answers = {
+            Balanced: [
+                ["<h4>Your Answers Indicate A Balanced Role</h4>"],
+                ["<img src='" + images.hare + "' align='left' width='75' height='100' border='0' alt='Hare Role'>"],
+                ["<img src='" + images.owl + "' align='left' width='75' height='100' border='0' alt='Owl Role'>"],
+                ["<img src='" + images.turtle + "' align='left' width='75' height='100' border='0' alt='Turtle Role'>"],
+                ["<img src='" + images.squirrel + "' align='left' width='75' height='100' border='0' alt='Squirrel Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Conceptual/Spontaneous/Practical/Methodical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Balanced Role fills in for any missing profiles to keep the development or implementation process moving in the right direction. Understanding and empathizing with at least three of the four H.O.T.S..Innovation patterns,the Balanced Role is able to move with ease into a variety of roles, and take on the tasks associated with each role.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Stepping in at the appropriate spot to keep things moving, the Balanced Role plays an important role in moving the group toward its objectives.</p>"],
+                ["<p><b>WEAKNESESS:</b>  The Balanced Role may not be as strong in each profile as others with higher scores.</p>"],
+                ["<p><b>INSTINCT:</b>  Adapting to the need at hand.</p>"]
+            ],
+            HareOwl: [
+                ["<h4>Your Answers Indicate A Hare/Owl Role</h4>"],
+                ["<img src='" + images.hare + "' align='left' width='75' height='100' border='0' alt='Hare Role'>"],
+                ["<img src='" + images.owl + "' align='left' width='75' height='100' border='0' alt='Owl Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Conceptual/Spontaneous/Practical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Hare/Owl is an idea generator who is also a true entrepreneur. They are good at exploring alternatives and concepts, and they are also more comfortable with an insightful plan. The Hare/Owl is able to generate ideas and develop a plan, based on past experience,to promote those ideas successfully.</p><p>The Hare/Owl derives satisfaction from identifying good ideas and developing solutions and strategies to overcome obstacles to implementation. They enjoy working on multiple tasks and like to be involved with the creation and advancement of ideas.</p><p>When everything is in its place,the Hare/Owl may get impatient, ready for the next challenge.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Development of new concepts and ideas that can be advanced within a known process or structure.</p>"],
+                ["<p><b>WEAKNESESS:</b>  The Hare/Owl may become frustrated with the details of an orderly implementation plan, and may pay little attention to the danger signs and barriers associated with implementation.</p>"],
+                ["<p><b>INSTINCT:</b>  Creating new ideas and advancing them in pursuit of team objectives.</p>"]
+            ],
+            OwlSquirrel: [
+                ["<h4>Your Answers Indicate A Owl/Squirrel Role</h4>"],
+                ["<img src='" + images.owl + "' align='left' width='75' height='100' border='0' alt='Owl Role'>"],
+                ["<img src='" + images.squirrel + "' align='left' width='75' height='100' border='0' alt='Squirrel Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Spontaneous/Practical/Methodical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Owl/Squirrel develops methods and approaches to promote and implement new ideas.Armed with the skills to develop a plan to successfully implement a solution,and the desire to think things through and work out problems before implementation, they will work quickly to achieve the team's objectives.</p><p>Looking for early trends and familiar ideas,the Owl/Squirrel streamlines the process to accomplish their objectives.The Owl/Squirrel prefers familiar,proven ideas, and demands a rational and orderly implementation plan.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Promoting team objectives by setting priorities,advancing the concept and finishing the job.</p>"],
+                ["<p><b>WEAKNESESS:</b>  The Owl/Squirrel may not allow others on the team to continue to create ideas and solutions before selecting solutions and moving forward with an implementation plan and process.</p>"],
+                ["<p><b>INSTINCT:</b>  Advancing new directions and developing detailed implementation plans.</p>"]
+            ],
+            TurtleSquirrel: [
+                ["<h4>Your Answers Indicate A Turtle/Squirrel Role</h4>"],
+                ["<img src='" + images.turtle + "' align='left' width='75' height='100' border='0' alt='Turtle Role'>"],
+                ["<img src='" + images.squirrel + "' align='left' width='75' height='100' border='0' alt='Squirrel Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Conceptual/Methodical/Practical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Turtle/Squirrel explores alternative solutions and ideas while paying attention to detailed implementation plans. When presented with an idea,the Turtle/Squirrel will consider aspects of the idea that may present problems, paying partic-ular attention to the implementation details. They will think of ways in which the new idea can fit into the existing process.</p><p>Good at visualizing the master plan and analyzing things, the Turtle/Squirrel is able to recognize alternatives. They prefer to think things over carefully before using a proven process when solving problems.</p><p>The Turtle/Squirrel likes to see things fit together, generally follows an orderly process, and derives satisfaction from developing a well-thoughtout implementation plan.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Making sure the concept and the details of the  implementation plan are thought through and carried out in an orderly manner.</p>"],
+                ["<p><b>WEAKNESESS:</b>  If working alone, the Turtle/Squirrel may continue to develop alternatives while paying attention to the details associated with each alternative, slowing the process down and limiting the introduction of riskier ideas.</p>"],
+                ["<p><b>INSTINCT:</b>  Improving ideas and developing detailed implementation plans.</p>"]
+            ],
+            HareTurtle: [
+                ["<h4>Your Answers Indicate A Hare/Turtle Role</h4>"],
+                ["<img src='" + images.hare + "' align='left' width='75' height='100' border='0' alt='Hare Role'>"],
+                ["<img src='" + images.turtle + "' align='left' width='75' height='100' border='0' alt='Turtle Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Spontaneous/Conceptual/Methodical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Hare/Turtle creates new ideas,then just as quickly, dismisses them. They are good at developing theories and principles and analyzing things.</p><p>The Hare/Turtle looks for solutions in unique and unusual contexts, and is able to identify consequences of actions associated with the implementation of the solution.</p><p>Preferring to be actively involved in things, the Hare/Turtle derives satisfaction from the process of creation, identifies potential problems, and develops ideas and plans to overcome any implementation problems created by their ideas.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Developing new concepts, identifying potential problems and creating an orderly plan to implement those ideas.</p>"],
+                ["<p><b>WEAKNESESS:</b>  If left alone,the Hare/Turtle will come up with new ideas and refine those ideas without advancement of implementation.</p>"],
+                ["<p><b>INSTINCT:</b>  Development and improvement of ideas before implementation.</p>"]
+            ],
+            Hare: [
+                ["<h4>Your Answers Indicate A Hare Role</h4>"],
+                ["<img src='" + images.hare + "' align='left' width='75' height='100' border='0' alt='Hare Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Conceptual/Spontaneous</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Hare generates the concepts and ideas. They like to reframe the problem and look for solutions that may be unusual, unique,and/or outside the boundaries of traditional thought. Hares are good at exploring alternatives and perceiving the &quot;big picture&quot;.</p><p>Hares want freedom from constraint, and when a rule exists they may break it. They may act impulsively, letting their feelings guide them. They derive satisfaction from the process of creating,discussing concepts and ideas,and overcoming obstacles.</p><p>When everything is in its place,the Hare may become restless,get impatient,and have a tendency to move from one subject to another.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Fresh,original concepts that go beyond the obvious,and are not constrained by fear of failure.</p>"],
+                ["<p><b>WEAKNESESS:</b>  Because the Hare enjoys generating ideas, they may move from one idea to another without stopping to evaluate the consequences.</p><p>If left alone to refine concepts,they will solve the problem within the problem within the problem,and eventually lose sight of the objective.</p>"],
+                ["<p><b>INSTINCT:</b>  Reframing problems to achieve breakthrough solutions,moving in new directions,examining possibilities without regard to risk.</p>"]
+            ],
+            Owl: [
+                ["<h4>Your Answers Indicate A Owl Role</h4>"],
+                ["<img src='" + images.owl + "' align='left' width='75' height='100' border='0' alt='Owl Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Spontaneous/Practical </p>"],
+                ["<p><b>DESCRIPTION:</b>  The Owl recognizes ideas and new directions in their early stages and develops the means to promote or advance them. When presented with an idea,they think of how to get it implemented,using insightful planning based on past experiences and successful methods. The Owl may initially respond to ideas with skepticism,but will let accepted norms and their feelings guide them.</p><p>They derive satisfaction from instilling a sense of purpose in the team, and promoting that purpose with single-mindedness and determination. Their actions are directed to achieving objectives by the most direct,efficient means,and they are not inclined to let rules and boundaries discourage them.</p><p>The Owl is able to focus on many things at once,and may move from one subject to another. They enjoy respect and influence.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Energetically promoting team objectives. Recognizing the value of a new idea or trend,and actively carrying it forward.</p>"],
+                ["<p><b>WEAKNESESS:</b>  If left alone or working only with someone with a strong Conceptual Approach, the Owl may move ahead to implement concepts that aren't completely thought through, ignoring danger signs and realistic barriers to successful implementation.</p>"],
+                ["<p><b>INSTINCT:</b>  Choosing the highest priority ideas, and moving swiftly to see them implemented.</p>"]
+            ],
+            Squirrel: [
+                ["<h4>Your Answers Indicate A Squirrel Role</h4>"],
+                ["<img src='" + images.squirrel + "' align='left' width='75' height='100' border='0' alt='Squirrel Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>  Methodical/Practical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Squirrel, more interested in protecting the system than being in the meeting, follows-up on team objectives, and implements ideas and solutions. They focus on ensuring the implementation process runs in an orderly manner, and achieving high quality outcomes.</p><p>Squirrels prefer proven, familiar ideas over the novel and untried. They pay attention to details, and see that plans follow an orderly process.</p><p>The Squirrel is comfortable being methodical. They tend to be cautious in trying out a new approach, and prefer to think things over carefully before acting.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  The details. Spotting easily overlooked problems before they occur, and minimizing inefficiencies and errors during implementation.</p>"],
+                ["<p><b>WEAKNESESS:</b>  If working without clear and focused objectives or guidelines, the Squirrel may lose sight of the goal and pursue irrelevant strategies.</p>"],
+                ["<p><b>INSTINCT:</b>  To finish what they start,and do things right.</p>"]
+            ],
+            Turtle: [
+                ["<h4>Your Answers Indicate A Turtle Role</h4>"],
+                ["<img src='" + images.turtle + "' align='left' width='75' height='100' border='0' alt='Turtle Role'>"],
+                ["<p style=\"clear:left;\"><b>APPROACH:</b>   Conceptual/Methodical</p>"],
+                ["<p><b>DESCRIPTION:</b>  The Turtle challenges concepts under discussion. Believing that consequences matter, the Turtle will want to plan how new endeavors are implemented and prepare for surprises. They like to create order from chaos, by improving the process by which ideas are implemented. The Turtle may play &quot;devil's advocate&quot; to test the soundness of an idea and try to improve it.</p><p>They prefer order,and are comfortable being methodical. They derive satisfaction from the mental exercise of the debate,and may lead others to examine the merits of an idea,using a systematic process in generating and exploring ideas.</p>"],
+                ["<p><b>CONTRIBUTION:</b>  Making sure that the concept is thought through, and examining how it can be improved and implemented.</p>"],
+                ["<p><b>WEAKNESESS:</b>  If allowed to control the group or the process,the Turtle may lead the team toward choosing low-risk ideas, filtering out ideas that may have greater risks,but also bigger payoffs.</p>"],
+                ["<p><b>INSTINCT:</b>  Prediction of the problems caused by new or unique ideas; improving ideas before implementation.</p>"]
+            ]
+        }
+        document.querySelector("#answers").innerHTML = answers[personality].join("");
+    }
+
+    var intro = [
+        ["<h1>HOTS Survey - What Part of the Team Are You?</h1>"],
+        ["<p><b>The following HOTS Survey helps determine what role you play in getting the most done with the least difficulty.</b></p>"],
+        ["<img src='" + images.hare + "' align='left' width='75' height='100' border='0' alt='Hare Role'>"],
+        ["<img src='" + images.owl + "' align='left' width='75' height='100' border='0' alt='Owl Role'>"],
+        ["<img src='" + images.turtle + "' align='left' width='75' height='100' border='0' alt='Turtle Role'>"],
+        ["<img src='" + images.squirrel + "' align='left' width='75' height='100' border='0' alt='Squirrel Role'>"],
+        ["<h4 style=\"clear:left;\">WHEN YOU'RE DOING WHAT YOU LOVE, WHO ARE YOU?</h4>"],
+        ["<p>Mark the box (just one) in each row that most describes you when you're working in your strengths and talents.</p>"],
+        ["<p><b>EXAMPLE:</b> reality <input type='radio' name='test'> <input type='radio' name='test'> <input type='radio' name='test'> <input type='radio' name='test' checked> imagination</p>"]
+    ];
+    document.querySelector("#intro").innerHTML = intro.join("");
+
+    var questions = [
+        ["E", "what is", "what if"],
+        ["E", "order", "chaos"],
+        ["E", "status quo", "new ideas"],
+        ["E", "profit", "revenue"],
+        ["E", "incremental", "radical"],
+        ["E", "wait", "jump in"],
+        ["E", "information", "intuition"],
+        ["E", "influence", "go along"],
+        ["E", "barriers", "attractions"],
+        ["E", "preserve system", "reinvent"],
+        ["C", "tactics", "strategy"],
+        ["C", "fine points", "big picture"],
+        ["C", "actualization", "conception"],
+        ["C", "the priorities", "the discussion"],
+        ["C", "the applications", "the principle"],
+        ["C", "metaphoric", "literal"],
+        ["C", "instructions", "figures it out"],
+        ["C", "the events", "the master plan"],
+        ["C", "fanciful", "practical"],
+        ["C", "reads directions", "figures it out"],
+    ];
+    var list = [];
+    var table = document.querySelector("#questions > tbody");
+    for (var i = 0; i < questions.length; i++) {
+        var columns = [];
+        var row = document.createElement("tr");
+        var left = document.createElement("td");
+        left.textContent = questions[i][1];
+        columns.push(left);
+        for (var j = 1; j < 5; j++) {
+            var radio = document.createElement("td");
+            var input = document.createElement("input");
+            input.type = "radio";
+            input.name = questions[i][0] + i;
+            input.value = j;
+            radio.appendChild(input);
+            columns.push(radio);
+        }
+        var right = document.createElement("td");
+        right.textContent = questions[i][2];
+        columns.push(right);
+        if (Math.random() >= 0.5) {
+            columns.reverse();
+        }
+        columns[0].align = "right";
+        for (var j = 0; j < columns.length; j++) {
+            row.appendChild(columns[j]);
+        }
+        list.push(row);
+    }
+    shuffleArray(list);
+    for (var i = 0; i < list.length; i++) {
+        table.appendChild(list[i]);
+    }
+    var row = document.createElement("tr");
+    var button = document.createElement("td");
+    button.colSpan = 6;
+    button.align = "center";
+    var input = document.createElement("input");
+    input.type = "button";
+    input.value = "Score My H.O.T.S. Survey";
+    input.addEventListener("click", calculateScore);
+    button.appendChild(input);
+    row.appendChild(button);
+    table.appendChild(row);
+</script>
+
+</html>
